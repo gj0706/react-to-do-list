@@ -1,0 +1,8 @@
+.App {
+	text-align: center;
+}
+
+/* 用户无法选中 button */
+.btn-normal {
+	user-select: none;
+}

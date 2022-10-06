@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../actions/index";
 
 const TodoInput = ({ setTodos }) => {
-	const [todoInput, setTodoInput] = useState("");
-	const addTodo = () => {
+	const [todoInput, setTodoInput] = useState(""); // 需要保留，不放进 redux
+	const dispatch = useDispatch();
+
+	const handleAddTodo = () => {
 		// edge case: input is empty string or some white spaces
 		if (!todoInput.trim()) {
 			//没有任何输入，或者输入为空格，则置空
@@ -10,15 +14,18 @@ const TodoInput = ({ setTodos }) => {
 			return;
 		}
 
-		const newTodo = {
-			content: todoInput,
-			isCompleted: false,
-		};
+		addTodo(dispatch)(todoInput);
+		setTodoInput("");
+		// const newTodo = {
+		// 	content: todoInput,
+		// 	isCompleted: false,
+		// };
 
-		setTodos((prev) => {
-			return [...prev, newTodo];
-		});
+		// 	setTodos((prev) => {
+		// 		return [...prev, newTodo];
+		// 	});
 	};
+
 	return (
 		<div>
 			<input
@@ -26,7 +33,7 @@ const TodoInput = ({ setTodos }) => {
 				value={todoInput}
 				onChange={(event) => setTodoInput(event.target.value)}
 			/>
-			<button onClick={addTodo} className="btn-normal">
+			<button onClick={handleAddTodo} className="btn-normal">
 				Add Todo
 			</button>
 		</div>
